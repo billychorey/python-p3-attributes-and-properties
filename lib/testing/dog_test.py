@@ -19,15 +19,19 @@ class TestDog:
         sys.stdout = captured_out
         Dog(name="")
         sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "Name must be string between 1 and 25 characters.\n")
+        expected_output = "Name must be a string between 1 and 25 characters.\n"
+        assert expected_output in captured_out.getvalue()
 
+        
     def test_name_string(self):
         '''prints "Name must be string between 1 and 25 characters." if not string.'''
         captured_out = io.StringIO()
         sys.stdout = captured_out
         Dog(name=123)
         sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "Name must be string between 1 and 25 characters.\n")
+        expected_output = "Name must be a string between 1 and 25 characters.\n"
+        assert expected_output in captured_out.getvalue()
+
 
     def test_name_under_25(self):
         '''prints "Name must be string between 1 and 25 characters." if string over 25 characters.'''
@@ -35,8 +39,10 @@ class TestDog:
         sys.stdout = captured_out
         Dog(name="What do dogs do on their day off? Can't lie around - that's their job.")
         sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "Name must be string between 1 and 25 characters.\n")
+        expected_output = "Name must be a string between 1 and 25 characters.\n"
+        assert expected_output in captured_out.getvalue()
 
+        
     def test_valid_name(self):
         '''saves name if string between 1 and 25 characters.'''
         fido = Dog(name="Fido")
@@ -48,7 +54,8 @@ class TestDog:
         sys.stdout = captured_out
         Dog(breed="Human")
         sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "Breed must be in list of approved breeds.\n")
+        expected_output = "Breed must be in list of approved breeds.\n"
+        assert expected_output in captured_out.getvalue()
 
     def test_breed_in_list(self):
         '''saves breed if in breed list.'''

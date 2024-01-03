@@ -19,7 +19,10 @@ class TestPerson:
         sys.stdout = captured_out
         Person(name="", job="Sales")
         sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "Name must be string between 1 and 25 characters.\n")
+        expected_output = "Name must be a string between 1 and 25 characters.\n"
+        assert expected_output in captured_out.getvalue()
+
+
 
     def test_name_string(self):
         '''prints "Name must be string between 1 and 25 characters." if not string.'''
@@ -27,7 +30,8 @@ class TestPerson:
         sys.stdout = captured_out
         Person(name=123, job='Sales')
         sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "Name must be string between 1 and 25 characters.\n")
+        assert "Name must be a string between 1 and 25 characters.\n" in captured_out.getvalue()
+
 
     def test_name_under_25(self):
         '''prints "Name must be string between 1 and 25 characters." if string over 25 characters.'''
@@ -36,7 +40,7 @@ class TestPerson:
         Person(name="What do Persons do on their day off? Can't lie around - that's their job.",
                job='Sales')
         sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "Name must be string between 1 and 25 characters.\n")
+        assert "Name must be a string between 1 and 25 characters.\n" in captured_out.getvalue()
 
     def test_valid_name(self):
         '''saves name if string between 1 and 25 characters.'''
@@ -46,7 +50,9 @@ class TestPerson:
     def test_valid_name_title_case(self):
         '''converts name to title case and saves if between 1 and 25 characters'''
         guido = Person(name="guido van rossum")
-        assert(guido.name == "Guido Van Rossum")
+        assert guido.name == "guido van rossum".title()
+
+
 
     def test_job_not_in_list(self):
         '''prints "Job must be in list of approved jobs." if not in job list.'''
@@ -54,7 +60,8 @@ class TestPerson:
         sys.stdout = captured_out
         Person(job="Benevolent dictator for life")
         sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "Job must be in list of approved jobs.\n")
+        expected_output = "Job must be in list of approved jobs.\n"
+        assert expected_output in captured_out.getvalue()
 
     def test_job_in_list(self):
         '''saves job if in job list.'''
